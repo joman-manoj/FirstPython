@@ -14,6 +14,18 @@
 input:invalid {
   border: 3px solid red;
 }
+
+
+div {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+div input{
+	border: 2px solid;
+ 	border-radius: 4px;
+ 	padding: 0.25em 0.5em;
+}
 		
 </style>
 
@@ -26,10 +38,10 @@ input:invalid {
     <input id="companyId" class="comId" type="text" pattern="[0-9]+"/>
  </div> 
  <div>
- 	<button id="btnSearch" class="search" onclick="javascript: searchCompanies();return false;" > Search </button>
+ 	<button id="btnSearch" class="search" > Search </button>
  </div>
  
- <table id="example" class="display" style="width:100%">
+ <table id="companyDetails" class="companies" style="width:100%">
         <thead>
             <tr>
                 <th>Id</th>
@@ -46,28 +58,29 @@ input:invalid {
 </body>
 
 <script>
-	function searchCompanies() {
-	var value= $(".comId").val();
-			alert(value);
-	}
+
+	$('#companyId').on('input', function (event) { 
+   		 this.value = this.value.replace(/[^0-9]/g, '');
+	});
 	
 	
-	(function() {
-  $("#example").DataTable({
-		"pageLength": 100
+(function() {
+  $("#companyDetails").DataTable({
+		"pageLength": 100,
+		"language": {
+      	"emptyTable": "No company details found"
+   		 }
 	});
 
-  // Premade test data, you can also use your own
+
   var testDataUrl = "/companies/all	"
 
   $("#btnSearch").click(function() {
-	
-	
     loadData();
   });
 
   function loadData() {
-   var value= $(".comId").val();
+   var value= $(".comId").val();   
     $.ajax({
       type: 'GET',
       url: testDataUrl,
@@ -75,6 +88,9 @@ input:invalid {
       contentType: "text/plain",
       dataType: 'json',
       success: function (data) {
+		if ( data.length == 0 ) {
+   			 return [];
+  		}
         myJsonData = data;
         populateDataTable(myJsonData);
       },
@@ -89,20 +105,19 @@ input:invalid {
   function populateDataTable(data) {
     console.log("populating data table...");
     // clear the table before populating it with more data
-    $("#example").DataTable().clear();
+    $("#companyDetails").DataTable().clear();
     var length = Object.keys(data).length;
-    for(var i = 0; i < length+1; i++) {
-      var customer = data[i];
-
-      // You could also use an ajax property on the data table initialization
-      $('#example').dataTable().fnAddData( [
-        customer.id
-		,customer.fakeCompanyName
-		,customer.description
-		,customer.tagline
-		,customer.companyEmail
-		,customer.businessNumber
-		,customer.Restricted
+    for(var i = 0; i < length; i++) {
+      var company = data[i];
+   
+      $('#companyDetails').dataTable().fnAddData( [
+        company.id
+		,company.fakeCompanyName
+		,company.description
+		,company.tagline
+		,company.companyEmail
+		,company.businessNumber
+		,company.Restricted
       ]);
     }
   }

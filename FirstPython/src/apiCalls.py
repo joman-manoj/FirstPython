@@ -1,13 +1,11 @@
 '''
 Created on Aug 23, 2021
 
-@author: joman
+@author: Manoj
 '''
 
-import flask, sqlite3
-from flask import request, jsonify
-import logging
-from pickletools import string1
+import sqlite3, logging
+from flask import jsonify
 
 def dict_factory(cursor, row):
     d = {}
@@ -17,11 +15,10 @@ def dict_factory(cursor, row):
 
 def getCompanies():
     try:
-        #to_filter = [];
         conn = sqlite3.connect("SnappyRecruitment");
         conn.row_factory = dict_factory
         cur = conn.cursor();
-        results = cur.execute("SELECT * FROM companies").fetchall()
+        results = cur.execute("SELECT * FROM companies WHERE Restricted='Yes'").fetchall()
         resp = jsonify(results)
         resp.status_code = 200
         return resp
@@ -37,6 +34,7 @@ def getCompany(businessNumber):
         conn = sqlite3.connect("SnappyRecruitment");
         conn.row_factory = dict_factory
         cursor = conn.cursor();
+        # Select the exact match of the companies who are restricted.
         query = "SELECT * FROM companies WHERE businessNumber=? AND Restricted='Yes'"
         param = int(businessNumber)  
         
