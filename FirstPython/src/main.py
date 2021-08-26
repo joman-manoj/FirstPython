@@ -22,9 +22,9 @@ def index():
 
 @app.route('/companies/all', methods=['GET'])
 def companies():
-    if 'businessNumber' in request.args:
-        return getCompany((request.args['businessNumber']));
-    else:
+    #if 'businessNumber' in request.args:
+    #    return getCompany((request.args['businessNumber']));
+    #else:
         return getCompanies();
 
 
