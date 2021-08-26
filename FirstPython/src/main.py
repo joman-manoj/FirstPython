@@ -13,6 +13,7 @@ from flask import request
 #Initialize the database , Schema creation done her
 init_db();
 
+
 #redirect the page for search companies
 @app.route('/')
 def index():

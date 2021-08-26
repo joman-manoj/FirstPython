@@ -38,7 +38,9 @@ div input{
     <input id="companyId" class="comId" type="text" pattern="[0-9]+"/>
  </div> 
  <div>
- 	<button id="btnSearch" class="search" > Search </button>
+
+ 	<button id="btnSearch" class="search"> Search </button>
+
  </div>
  
  <table id="companyDetails" class="companies" style="width:100%">
@@ -59,10 +61,11 @@ div input{
 
 <script>
 
+
 	$('#companyId').on('input', function (event) { 
    		 this.value = this.value.replace(/[^0-9]/g, '');
 	});
-	
+
 	
 (function() {
   $("#companyDetails").DataTable({
@@ -71,7 +74,6 @@ div input{
       	"emptyTable": "No company details found"
    		 }
 	});
-
 
   var testDataUrl = "/companies/all	"
 
