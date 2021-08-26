@@ -18,7 +18,7 @@ init_db();
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('searchCompanies.html')
 
 @app.route('/companies/all', methods=['GET'])
 def companies():
