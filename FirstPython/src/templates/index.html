@@ -26,7 +26,7 @@ input:invalid {
     <input id="companyId" class="comId" type="text" pattern="[0-9]+"/>
  </div> 
  <div>
- 	<button id="btnSearch" class="search" onclick="javascript: searchCompanies();return false;" > Search </button>
+ 	<button id="btnSearch" class="search"> Search </button>
  </div>
  
  <table id="example" class="display" style="width:100%">
@@ -46,11 +46,9 @@ input:invalid {
 </body>
 
 <script>
-	function searchCompanies() {
-	var value= $(".comId").val();
-			alert(value);
-	}
-	
+	$('#companyId').on('input', function (event) { 
+   		 this.value = this.value.replace(/[^0-9]/g, '');
+	});
 	
 	(function() {
   $("#example").DataTable({
@@ -60,9 +58,7 @@ input:invalid {
   // Premade test data, you can also use your own
   var testDataUrl = "/companies/all"
 
-  $("#btnSearch").click(function() {
-	
-	
+  $("#btnSearch").click(function() {	
     loadData();
   });
 
