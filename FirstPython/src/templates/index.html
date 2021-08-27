@@ -88,7 +88,8 @@ div input{
       url: testDataUrl,
 	  data: {businessNumber: value},	
       contentType: "text/plain",
-      dataType: 'json',
+      crossDomain: true,	
+      dataType: 'jsonp',
       success: function (data) {
 		if ( data.length == 0 ) {
    			 return [];
